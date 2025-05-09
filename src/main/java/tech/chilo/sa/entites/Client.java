@@ -12,7 +12,7 @@ public class Client {
     private int id;
 
     @Column(unique = true, nullable = false)
-    @Email(message = "doit être un email de entreprise valide !")
+    @Email(message = "doit être un email de entreprise valide !", regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$")
     private String email;
     private String telephone;
 

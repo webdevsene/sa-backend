@@ -1,5 +1,11 @@
 version: '3.1'
 services:
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq4-m
+    ports:
+      - 5672:5672
+      - 15672:15672
   mailpit:
     image: axllent/mailpit:v1.15
     container_name: mailpit
