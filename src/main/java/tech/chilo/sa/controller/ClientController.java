@@ -1,9 +1,12 @@
 package tech.chilo.sa.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tech.chilo.sa.dto.ErnoEntity;
 import tech.chilo.sa.entites.Client;
 import tech.chilo.sa.service.ClientService;
 import tech.chilo.sa.service.EmailService;
@@ -37,13 +40,26 @@ public class ClientController {
     }
 
     @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Client lire(@PathVariable int id) {
-        return  this.clientService.lire(id);
+    public ResponseEntity<?> lire(@PathVariable int id) {
+
+        try {
+            Client clt = this.clientService.lire(id);
+            return  ResponseEntity.ok(clt);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErnoEntity(null, e.getMessage()));
+        }
     }
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PutMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void modifier(@PathVariable int id, @Valid @RequestBody Client client) {
         this.clientService.modifier(id, client);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping(path = "{id}")
+    public void supprimer(@PathVariable int id) {
+
+        this.clientService.supprimer(id);
     }
 }

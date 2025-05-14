@@ -1,5 +1,6 @@
 package tech.chilo.sa.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -42,12 +43,15 @@ public class ClientService {
 
     public Client lire(int id) {
         Optional<Client> optionalClient = this.clientRepository.findById(id);
-        if (optionalClient.isPresent()) {
-            return optionalClient.get();
-        }
-        else {
-            return null;
-        }
+
+        return  optionalClient.orElseThrow(() -> new EntityNotFoundException("Aucun element correspond à votre recherche. Votre objet n'existe pas"));
+
+        // if (optionalClient.isPresent()) {
+        //     return optionalClient.get();
+        // }
+        // else {
+        //     return null;
+        // }
     }
 
     public Client lireOuCreer(@Valid Client client) {
@@ -76,5 +80,10 @@ public class ClientService {
             this.clientRepository.save(clientEnBd);
 
         }
+    }
+
+    public void supprimer(int id) {
+
+        this.clientRepository.deleteById(id);
     }
 }

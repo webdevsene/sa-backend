@@ -253,14 +253,41 @@ CREATE TABLE utilisateur (
     ADRESSE varchar(255),
     TELEPHONE varchar(255),
     EMAIL varchar(255),
-    TYPE_UTILISATEUR_ID integer, -- ROLE
-    NOM_UTILISATEUR varchar(255),
+    TYPE_UTILISATEUR_ID integer, -- ROLE / TYPE Utilisateur
+    NOM_UTILISATEUR varchar(255) unique not null,
     MDP varchar(255),
-    FIRST_LOGIN boolean, -- par defaut à true forer l'utilisater dans la logique de changer e mdp à la 1ere cnx
+    FIRST_LOGIN boolean default true, -- par defaut à true forer l'utilisater dans la logique de changer e mdp à la 1ere cnx
     STATUT boolean,
     DESCRIPTION varchar(255),
-    ETABLISSEMENT varchar(100) -- / CONSTRAINT etablissement_fk foreign key (ETABLISSEMENT_ID) REFERENCES etablissement(ID)
+    ETABLISSEMENT varchar(100), -- / CONSTRAINT etablissement_fk foreign key (ETABLISSEMENT_ID) REFERENCES etablissement(ID)
+    CONSTRAINT type_utilisateur_fk foreign key (TYPE_UTILISATEUR_ID) REFERENCES type_utilisateur(ID)
 
+);
+
+
+CREATE TABLE type_utilisateur (
+    ID SERIAL primary key,
+    LIBELLE varchar(255),
+    ROLE_ID integer,
+
+);
+
+
+--- voilà l'approche utilise pour gerer les utilisateurs - roles - permissions
+CREATE TABLE user_roles (
+    UTILISATEUR_ID INTEGER REFERENCES utilisateur(ID) ON DELETE CASCADE,
+    ROLE_ID INTEGER REFERENCES ROLE(ID) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, role_id)
+);
+
+
+CREATE TABLE role (
+    ID SERIAL primary key,
+    POUVOIR varchar(255),  -- Ex : ROLE_AFFECTATION_CARTE
+    LIBELLE varchar(255),
+    DESCRIPTION varchar(255),
+    ATTRIBUTION_UNIQUE boolean,
+    ROLE_SYSTEM boolean
 );
 
 
