@@ -12,6 +12,7 @@ import tech.chilo.sa.service.ClientService;
 import tech.chilo.sa.service.EmailService;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "client")
@@ -29,6 +30,8 @@ public class ClientController {
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public void creer(@Valid @RequestBody Client client) {
+
+        System.out.println(client);
         this.clientService.creer(client);
         this.emailService.sendEmail(client.getEmail(), "sa inscription client", "no-replay : ce message a ete envoye par SA ");
 
@@ -40,7 +43,7 @@ public class ClientController {
     }
 
     @GetMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> lire(@PathVariable int id) {
+    public ResponseEntity<?> lire(@PathVariable UUID id) {
 
         try {
             Client clt = this.clientService.lire(id);
@@ -52,13 +55,13 @@ public class ClientController {
 
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @PutMapping(path = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void modifier(@PathVariable int id, @Valid @RequestBody Client client) {
+    public void modifier(@PathVariable UUID id, @Valid @RequestBody Client client) {
         this.clientService.modifier(id, client);
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping(path = "{id}")
-    public void supprimer(@PathVariable int id) {
+    public void supprimer(@PathVariable UUID id) {
 
         this.clientService.supprimer(id);
     }

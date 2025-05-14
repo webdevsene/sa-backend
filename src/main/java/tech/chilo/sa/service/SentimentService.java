@@ -7,6 +7,7 @@ import tech.chilo.sa.enums.TypeSentiment;
 import tech.chilo.sa.repository.SentimentRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SentimentService {
@@ -41,7 +42,7 @@ public class SentimentService {
         }
     }
 
-    public void supprimer(int id) {
+    public void supprimer(UUID id) {
         this.sentimentRepository.deleteById(id);
     }
 }

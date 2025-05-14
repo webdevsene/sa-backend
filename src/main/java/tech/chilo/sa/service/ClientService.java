@@ -11,6 +11,7 @@ import tech.chilo.sa.repository.ClientRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Validated
@@ -41,7 +42,7 @@ public class ClientService {
         return  this.clientRepository.findAll();
     }
 
-    public Client lire(int id) {
+    public Client lire(UUID id) {
         Optional<Client> optionalClient = this.clientRepository.findById(id);
 
         return  optionalClient.orElseThrow(() -> new EntityNotFoundException("Aucun element correspond à votre recherche. Votre objet n'existe pas"));
@@ -70,7 +71,7 @@ public class ClientService {
         return clientEnBD;
     }
 
-    public void modifier(int id, Client client) {
+    public void modifier(UUID id, Client client) {
 
         Client clientEnBd = this.lire(id);
 
@@ -82,7 +83,7 @@ public class ClientService {
         }
     }
 
-    public void supprimer(int id) {
+    public void supprimer(UUID id) {
 
         this.clientRepository.deleteById(id);
     }
