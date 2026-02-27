@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import tech.chilo.sa.enums.TypeSentiment;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -29,5 +30,16 @@ public class Sentiment {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "client_id")
     private Client client;
+
+    private LocalDateTime timestamp;
+
+
+    private Integer intensity;
+    private String category;
+
+    @PrePersist
+    protected void onCreate() {
+        timestamp = LocalDateTime.now();
+    }
 
 }

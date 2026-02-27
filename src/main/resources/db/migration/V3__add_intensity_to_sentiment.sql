@@ -1,0 +1,1 @@
+ALTER TABLE sentiment ADD COLUMN intensity INTEGER;

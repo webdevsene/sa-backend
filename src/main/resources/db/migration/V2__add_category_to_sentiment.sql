@@ -1,0 +1,1 @@
+ALTER TABLE sentiment ADD COLUMN category VARCHAR(255);

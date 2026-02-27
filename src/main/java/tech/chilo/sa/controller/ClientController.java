@@ -33,7 +33,7 @@ public class ClientController {
 
         System.out.println(client);
         this.clientService.creer(client);
-        this.emailService.sendEmail(client.getEmail(), "sa inscription client", "no-replay : ce message a ete envoye par SA ");
+//        this.emailService.sendEmail(client.getEmail(), "sa inscription client", "no-replay : ce message a ete envoye par SA ");
 
     }
 
